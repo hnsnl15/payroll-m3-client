@@ -1,8 +1,8 @@
 export interface IEmployee {
   employeeId: number;
   role: ERole;
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
   lastName: string;
   firstName: string;
   birthday: string;
