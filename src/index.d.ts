@@ -240,10 +240,40 @@ export interface IUseAuth {
    * @returns {Promise<void>} - A promise that resolves when the logout is successful.
    */
   logout: () => Promise<void>;
+}
+
+/**
+ * Represents the authentication context.
+ * @interface IAuthContext
+ */
+export interface IAuthContext {
+  /**
+   * The authentication token.
+   * @type {string}
+   */
+  token: string;
 
   /**
-   * Checks if the user is authenticated.
-   * @returns {boolean} - A boolean value indicating whether the user is authenticated.
+   * A function to set the authentication token.
+   * @type {React.Dispatch<React.SetStateAction<string>>}
    */
-  isAuthenticated: () => boolean;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+
+  /**
+   * Indicates whether the user is authenticated.
+   * @type {boolean}
+   */
+  authenticated: boolean;
+
+  /**
+   * A function to set the authenticated status.
+   * @type {React.Dispatch<React.SetStateAction<boolean>>}
+   */
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+
+  /**
+   * The cookie instance.
+   * @type {string | undefined}
+   */
+  cookieInstance: string | undefined;
 }
