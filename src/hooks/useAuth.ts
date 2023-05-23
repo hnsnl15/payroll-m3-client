@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
 import { IUseAuth } from "..";
 
-const TOKEN_COOKIE_NAME = "jwtToken";
+export const TOKEN_COOKIE_NAME = "jwtToken";
 
 /**
  * Saves the JWT token in a cookie.
@@ -75,17 +75,8 @@ export const useAuth = (): IUseAuth => {
     await logoutMutation.mutateAsync();
   };
 
-  /**
-   * Checks if the user is authenticated.
-   * @returns {boolean} - True if the user is authenticated, false otherwise.
-   */
-  const isAuthenticated = (): boolean => {
-    return Cookies.get(TOKEN_COOKIE_NAME) !== undefined;
-  };
-
   return {
     login,
     logout,
-    isAuthenticated,
   };
 };
