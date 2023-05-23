@@ -64,7 +64,7 @@ export const useAuth = (): IUseAuth => {
    * @returns {Promise<void>}
    */
   const login = async (token: string): Promise<void> => {
-    await loginMutation.mutateAsync(token);
+    return await loginMutation.mutateAsync(token);
   };
 
   /**
