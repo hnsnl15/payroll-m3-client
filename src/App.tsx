@@ -9,6 +9,7 @@ import WelcomePage from "./pages/WelcomePage";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import EmployeeFormPage from "./pages/EmployeeFormPage";
+import Navbar from "./components/Navbar";
 
 interface IProtectedRouteProps {
   isAuthenticated: boolean;
@@ -32,6 +33,7 @@ export default function App() {
 
   return (
     <Router>
+      {authenticated && <Navbar />}
       <Routes>
         <Route
           path="/"
