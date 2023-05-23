@@ -223,3 +223,27 @@ export enum EStatus {
   OnHand,
   Sold,
 }
+
+/**
+ * Interface representing the authentication methods.
+ */
+export interface IUseAuth {
+  /**
+   * Logs in the user with the provided JWT token.
+   * @param {string} token - The JWT token to be used for authentication.
+   * @returns {Promise<void>} - A promise that resolves when the login is successful.
+   */
+  login: (token: string) => Promise<void>;
+
+  /**
+   * Logs out the currently authenticated user.
+   * @returns {Promise<void>} - A promise that resolves when the logout is successful.
+   */
+  logout: () => Promise<void>;
+
+  /**
+   * Checks if the user is authenticated.
+   * @returns {boolean} - A boolean value indicating whether the user is authenticated.
+   */
+  isAuthenticated: () => boolean;
+}

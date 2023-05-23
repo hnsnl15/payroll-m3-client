@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
+import { IUseAuth } from "..";
 
 const TOKEN_COOKIE_NAME = "jwtToken";
 
@@ -23,9 +24,9 @@ const removeToken = (): void => {
 
 /**
  * Custom React Query hook for handling JWT token authentication.
- * @returns {Object} - Auth methods and authentication status.
+ * @returns {IUseAuth} - Auth methods and authentication status.
  */
-export const useAuth = (): object => {
+export const useAuth = (): IUseAuth => {
   const queryClient = useQueryClient();
 
   /**
@@ -74,15 +75,17 @@ export const useAuth = (): object => {
     await logoutMutation.mutateAsync();
   };
 
+  /**
+   * Checks if the user is authenticated.
+   * @returns {boolean} - True if the user is authenticated, false otherwise.
+   */
+  const isAuthenticated = (): boolean => {
+    return Cookies.get(TOKEN_COOKIE_NAME) !== undefined;
+  };
+
   return {
     login,
     logout,
-    /**
-     * Checks if the user is authenticated.
-     * @returns {boolean} - True if the user is authenticated, false otherwise.
-     */
-    isAuthenticated: (): boolean => {
-      return Cookies.get(TOKEN_COOKIE_NAME) !== undefined;
-    },
+    isAuthenticated,
   };
 };
