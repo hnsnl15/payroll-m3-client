@@ -9,7 +9,6 @@ import { getJwtToken } from "../api";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-// import { useNavigate } from "react-router-dom";
 
 const StyledContainer = css`
   width: 100vw;
@@ -20,8 +19,8 @@ const StyledContainer = css`
 `;
 
 const StyledForm = css`
-  width: clamp(250px, 100%, 350px);
-  height: calc(100vh - 450px);
+  width: clamp(240px, 90%, 350px);
+  height: 360px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,7 +53,6 @@ function LoginForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(authenticated, token);
     authenticated && navigate("/");
   }, [token]);
 
