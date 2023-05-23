@@ -8,16 +8,17 @@ import LoginPage from "./pages/LoginPage";
 import WelcomePage from "./pages/WelcomePage";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import EmployeeFormPage from "./pages/EmployeeFormPage";
 
 interface IProtectedRouteProps {
   isAuthenticated: boolean;
-  redirectPath?: string;
+  redirectPath: string;
   children: React.ReactNode;
 }
 
 const ProtectedRoute = ({
   isAuthenticated = false,
-  redirectPath = "/login",
+  redirectPath,
   children,
 }: IProtectedRouteProps) => {
   if (!isAuthenticated) {
@@ -35,12 +36,31 @@ export default function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute isAuthenticated={authenticated}>
+            <ProtectedRoute
+              isAuthenticated={authenticated}
+              redirectPath="/login"
+            >
               <WelcomePage />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/form/employee"
+          element={
+            <ProtectedRoute isAuthenticated={authenticated} redirectPath="">
+              <EmployeeFormPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="*"
+          element={
+            <>
+              <h1>Sorry, this page is not available.</h1>
+            </>
+          }
+        />
       </Routes>
     </Router>
   );
