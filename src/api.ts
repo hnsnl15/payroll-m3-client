@@ -259,4 +259,4 @@ export const getAttendancesByDatePageable = (
  * @returns Promise that resolves to the JWT token.
  */
 export const getJwtToken = (value: ILogin) =>
-  axiosApi.post(`/api/auth-token`, value);
+  axiosApi.post(`/api/auth-token`, value).then((response) => response.data);
