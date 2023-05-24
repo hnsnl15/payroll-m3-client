@@ -9,7 +9,7 @@ export interface IEmployee {
   /**
    * The role of the employee.
    */
-  role: ERole;
+  role?: ERole;
   /**
    * The username of the employee.
    */
