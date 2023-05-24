@@ -5,7 +5,7 @@ export interface IEmployee {
   /**
    * The employee ID.
    */
-  employeeId: number;
+  employeeId?: number;
   /**
    * The role of the employee.
    */
