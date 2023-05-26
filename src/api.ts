@@ -166,9 +166,7 @@ export const postEmployee = async (
 ): Promise<AxiosResponse<any, any> | undefined> => {
   try {
     return await axiosApi.post(`/api/v1/create-employee`, value);
-  } catch (error: any) {
-    throw new Error(error);
-  }
+  } catch {}
 };
 
 // Attendance
