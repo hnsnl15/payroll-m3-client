@@ -1,5 +1,7 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { IAttendance, IEmployee, IInventory, ILogin } from ".";
+import Cookies from "js-cookie";
+import { TOKEN_COOKIE_NAME } from "./hooks/useAuth";
 
 /**
  * Axios instance for API requests.
@@ -12,6 +14,19 @@ const axiosApi: AxiosInstance = axios.create({
   },
 });
 
+axiosApi.interceptors.request.use(
+  (config) => {
+    const cookieInstance = Cookies.get(TOKEN_COOKIE_NAME); // Set this based on whether authorization is available or not
+    if (cookieInstance !== undefined) {
+      config.headers["Authorization"] = `Bearer ${cookieInstance}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 // Inventory
 
 /**
@@ -19,14 +34,15 @@ const axiosApi: AxiosInstance = axios.create({
  * @param {number} id - Stock ID.
  * @returns {Promise<AxiosResponse<IInventory>>} Promise that resolves to the stock data.
  */
-export const getStockById = (id: number) =>
+export const getStockById = (id: number): Promise<AxiosResponse<IInventory>> =>
   axiosApi.get(`/api/v1/inventory/${id}`);
 
 /**
  * Get all stocks.
  * @returns {Promise<AxiosResponse<IInventory[]>>} Promise that resolves to an array of all stocks.
  */
-export const getAllStock = () => axiosApi.get(`/api/v1/inventory`);
+export const getAllStock = (): Promise<AxiosResponse<IInventory[]>> =>
+  axiosApi.get(`/api/v1/inventory`);
 
 /**
  * Get pageable stocks.
@@ -34,7 +50,10 @@ export const getAllStock = () => axiosApi.get(`/api/v1/inventory`);
  * @param {number} size - Number of items per page.
  * @returns {Promise<AxiosResponse<IInventory[]>>} Promise that resolves to an array of pageable stocks.
  */
-export const getStocksPageable = (page: number = 0, size: number = 5) =>
+export const getStocksPageable = (
+  page: number = 0,
+  size: number = 5
+): Promise<AxiosResponse<IInventory[]>> =>
   axiosApi.get(`/api/v2/inventory?page=${page}&size=${size}`);
 
 /**
@@ -43,7 +62,10 @@ export const getStocksPageable = (page: number = 0, size: number = 5) =>
  * @param {IInventory} value - Updated stock data.
  * @returns {Promise<AxiosResponse<IInventory>>} Promise that resolves to the updated stock data.
  */
-export const updateStock = (id: number, value: IInventory) =>
+export const updateStock = (
+  id: number,
+  value: IInventory
+): Promise<AxiosResponse<IInventory>> =>
   axiosApi.put(`/api/v1/inventory/${id}`, value);
 
 /**
@@ -51,7 +73,9 @@ export const updateStock = (id: number, value: IInventory) =>
  * @param {number} id - Stock ID.
  * @returns {Promise<AxiosResponse<IInventory>>} Promise that resolves to the deleted stock data.
  */
-export const deleteStockById = (id: number) =>
+export const deleteStockById = (
+  id: number
+): Promise<AxiosResponse<IInventory>> =>
   axiosApi.delete(`/api/v1/inventory/${id}`);
 
 /**
@@ -59,7 +83,9 @@ export const deleteStockById = (id: number) =>
  * @param {IInventory} value - Stock data to be created.
  * @returns {Promise<AxiosResponse<IInventory>>} Promise that resolves to the created stock data.
  */
-export const postStock = (value: IInventory) =>
+export const postStock = (
+  value: IInventory
+): Promise<AxiosResponse<IInventory>> =>
   axiosApi.post(`/api/v1/inventory/create-stock`, value);
 
 // Employee
@@ -69,14 +95,16 @@ export const postStock = (value: IInventory) =>
  * @param {number} id - Employee ID.
  * @returns {Promise<AxiosResponse<IEmployee>>} Promise that resolves to the employee data.
  */
-export const getEmployeeById = (id: number) =>
-  axiosApi.get(`/api/v1/employees/${id}`);
+export const getEmployeeById = (
+  id: number
+): Promise<AxiosResponse<IEmployee>> => axiosApi.get(`/api/v1/employees/${id}`);
 
 /**
  * Get all employees.
  * @returns {Promise<AxiosResponse<IEmployee[]>>} Promise that resolves to an array of all employees.
  */
-export const getAllEmployee = () => axiosApi.get(`/api/v1/employees`);
+export const getAllEmployee = (): Promise<AxiosResponse<IEmployee[]>> =>
+  axiosApi.get(`/api/v1/employees`);
 
 /**
  * Get pageable employees.
@@ -84,7 +112,10 @@ export const getAllEmployee = () => axiosApi.get(`/api/v1/employees`);
  * @param {number} size - Number of items per page.
  * @returns {Promise<AxiosResponse<IEmployee[]>>} Promise that resolves to an array of pageable employees.
  */
-export const getEmployeesPageable = (page: number = 0, size: number = 5) =>
+export const getEmployeesPageable = (
+  page: number = 0,
+  size: number = 5
+): Promise<AxiosResponse<IEmployee[]>> =>
   axiosApi.get(`/api/v2/employees?page=${page}&size=${size}`);
 
 /**
@@ -98,7 +129,7 @@ export const getCalculationData = (
   username: string,
   startDate: string,
   endDate: string
-) =>
+): Promise<AxiosResponse<any>> =>
   axiosApi.get(
     `/api/v1/employees/get-calculation-data/${username}?startDate=${startDate}&endDate=${endDate}`
   );
@@ -109,7 +140,10 @@ export const getCalculationData = (
  * @param {IEmployee} value - Updated employee data.
  * @returns {Promise<AxiosResponse<IEmployee>>} Promise that resolves to the updated employee data.
  */
-export const updateEmployee = (id: number, value: IEmployee) =>
+export const updateEmployee = (
+  id: number,
+  value: IEmployee
+): Promise<AxiosResponse<IEmployee>> =>
   axiosApi.put(`/api/v1/employees/${id}`, value);
 
 /**
@@ -117,7 +151,9 @@ export const updateEmployee = (id: number, value: IEmployee) =>
  * @param {number} id - Employee ID.
  * @returns {Promise<AxiosResponse<IEmployee>>} Promise that resolves to the deleted employee data.
  */
-export const deleteEmployeeById = (id: number) =>
+export const deleteEmployeeById = (
+  id: number
+): Promise<AxiosResponse<IEmployee>> =>
   axiosApi.delete(`/api/v1/employees/${id}`);
 
 /**
@@ -125,8 +161,15 @@ export const deleteEmployeeById = (id: number) =>
  * @param {IEmployee} value - Employee data to be created.
  * @returns {Promise<AxiosResponse<IEmployee>>} Promise that resolves to the created employee data.
  */
-export const postEmployee = (value: IEmployee) =>
-  axiosApi.post(`/api/v1/employees/create-employee`, value);
+export const postEmployee = async (
+  value: IEmployee
+): Promise<AxiosResponse<any, any> | undefined> => {
+  try {
+    return await axiosApi.post(`/api/v1/create-employee`, value);
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
 
 // Attendance
 
@@ -135,14 +178,17 @@ export const postEmployee = (value: IEmployee) =>
  * @param {IAttendance} value - Attendance data to be created.
  * @returns {Promise<AxiosResponse<IAttendance>>} Promise that resolves to the created attendance data.
  */
-export const postAttendance = (value: IAttendance) =>
+export const postAttendance = (
+  value: IAttendance
+): Promise<AxiosResponse<IAttendance>> =>
   axiosApi.post(`/api/v1/create-attendance`, value);
 
 /**
  * Get all attendance records.
  * @returns {Promise<AxiosResponse<IAttendance[]>>} Promise that resolves to an array of all attendance records.
  */
-export const getAllAttendance = () => axiosApi.get(`/api/v1/attendances`);
+export const getAllAttendance = (): Promise<AxiosResponse<IAttendance[]>> =>
+  axiosApi.get(`/api/v1/attendances`);
 
 /**
  * Get pageable attendance records.
@@ -150,7 +196,10 @@ export const getAllAttendance = () => axiosApi.get(`/api/v1/attendances`);
  * @param {number} size - Number of items per page.
  * @returns {Promise<AxiosResponse<IAttendance[]>>} Promise that resolves to an array of pageable attendance records.
  */
-export const getAttendancesPageable = (page: number = 0, size: number = 5) =>
+export const getAttendancesPageable = (
+  page: number = 0,
+  size: number = 5
+): Promise<AxiosResponse<IAttendance[]>> =>
   axiosApi.get(`/api/v2/attendances?page=${page}&size=${size}`);
 
 /**
@@ -166,7 +215,7 @@ export const getAttendancesByDateWithIdPageable = (
   id: number,
   page: number = 0,
   size: number = 5
-) =>
+): Promise<AxiosResponse<IAttendance[]>> =>
   axiosApi.get(
     `/api/v2/attendances/date?date=${date}&id=${id}&page=${page}&size=${size}`
   );
@@ -182,7 +231,7 @@ export const getHoursWorked = (
   username: string,
   startDate: string,
   endDate: string
-) =>
+): Promise<AxiosResponse<any>> =>
   axiosApi.get(
     `/api/v1/calculate/hours-worked/${username}?startDate=${startDate}&endDate=${endDate}`
   );
@@ -192,7 +241,9 @@ export const getHoursWorked = (
  * @param {number} id - Attendance record ID.
  * @returns {Promise<AxiosResponse<IAttendance>>} Promise that resolves to the attendance record data.
  */
-export const getAttendanceById = (id: number) =>
+export const getAttendanceById = (
+  id: number
+): Promise<AxiosResponse<IAttendance>> =>
   axiosApi.get(`/api/v1/attendances/${id}`);
 
 /**
@@ -206,7 +257,7 @@ export const getAttendanceByEmployee = (
   page: number = 0,
   size: number = 5,
   id: number
-) =>
+): Promise<AxiosResponse<IAttendance[]>> =>
   axiosApi.get(
     `/api/v1/attendances/employee?page=${page}&size=${size}&id=${id}`
   );
@@ -222,7 +273,7 @@ export const getAttendancesByDatePageable = (
   date: string,
   page: number = 0,
   size: number = 5
-) =>
+): Promise<AxiosResponse<IAttendance[]>> =>
   axiosApi.get(
     `/api/v1/attendances/date?date=${date}&page=${page}&size=${size}`
   );
@@ -234,5 +285,5 @@ export const getAttendancesByDatePageable = (
  * @param {ILogin} value - Login credentials.
  * @returns {Promise<AxiosResponse<any>>} Promise that resolves to the JWT token.
  */
-export const getJwtToken = (value: ILogin) =>
+export const getJwtToken = (value: ILogin): Promise<AxiosResponse<any>> =>
   axiosApi.post(`/api/auth-token`, value);
