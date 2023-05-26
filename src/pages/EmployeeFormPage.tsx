@@ -9,7 +9,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { css } from "@emotion/css";
-import { useMutation } from "react-query";
 import { postEmployee } from "../api";
 import { useState } from "react";
 
@@ -98,7 +97,13 @@ export default function EmployeeFormPage() {
     values: IEmployee,
     { resetForm }: FormikHelpers<IEmployee>
   ) => {
-    await postEmployee(values);
+    try {
+      await postEmployee(values);
+      resetForm();
+      setError(false);
+    } catch {
+      setError(true);
+    }
   };
 
   return (
@@ -110,6 +115,11 @@ export default function EmployeeFormPage() {
       <Form className={StyledFormContainer}>
         {/* Name and birthday fields */}
         <h1>Create Employee</h1>
+        {error && (
+          <p className={StyledErrorMessage}>
+            Error occured while submitting the form to the server.
+          </p>
+        )}
         <Grid
           container
           className={StyledGridContainer}
