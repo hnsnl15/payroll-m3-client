@@ -143,7 +143,7 @@ export interface IAttendance {
   /**
    * The ID of the attendance record.
    */
-  id: number;
+  id?: number;
   /**
    * The name of the employee.
    */
