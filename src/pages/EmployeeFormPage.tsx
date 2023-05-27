@@ -8,9 +8,15 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { css } from "@emotion/css";
 import { postEmployee } from "../api";
 import { useState } from "react";
+import {
+  StyledErrorMessage,
+  StyledFormContainer,
+  StyledGridContainer,
+  StyledGridItemContainer,
+  StyledSuccessMessage,
+} from "./css";
 
 const initialValues: IEmployee = {
   lastName: "",
@@ -57,39 +63,6 @@ const employeeSchema = Yup.object({
   ),
   hourlyRate: Yup.number().required("Hourly rate is required"),
 });
-
-const StyledGridContainer = css`
-  background: #fff;
-  max-width: 80vw;
-  margin: auto;
-  padding: 0.5rem;
-`;
-
-const StyledGridItemContainer = css`
-  display: grid;
-  height: 120px;
-  align-items: center;
-`;
-
-const StyledFormContainer = css`
-  display: flex;
-  flex-direction: column;
-  margin-top: 70px;
-  gap: 30px;
-  height: max-content;
-  width: max-content;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-`;
-
-const StyledErrorMessage = css`
-  color: red;
-`;
-
-const StyledSuccessMessage = css`
-  color: green;
-`;
 
 export default function EmployeeFormPage() {
   const theme = useTheme();
