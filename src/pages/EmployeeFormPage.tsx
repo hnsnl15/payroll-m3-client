@@ -87,11 +87,16 @@ const StyledErrorMessage = css`
   color: red;
 `;
 
+const StyledSuccessMessage = css`
+  color: green;
+`;
+
 export default function EmployeeFormPage() {
   const theme = useTheme();
   const isPhoneSize = useMediaQuery(theme.breakpoints.down("sm"));
   const startOrCenter = isPhoneSize ? "center" : "flex-start";
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (
     values: IEmployee,
@@ -101,6 +106,7 @@ export default function EmployeeFormPage() {
       await postEmployee(values);
       resetForm();
       setError(false);
+      setSuccess(true);
     } catch {
       setError(true);
     }
@@ -113,13 +119,17 @@ export default function EmployeeFormPage() {
       onSubmit={handleSubmit}
     >
       <Form className={StyledFormContainer}>
-        {/* Name and birthday fields */}
         <h1>Create Employee</h1>
         {error && (
           <p className={StyledErrorMessage}>
-            Error occured while submitting the form to the server.
+            Error occurred while submitting the form to the server.
           </p>
         )}
+        {success && (
+          <p className={StyledSuccessMessage}>Created successfully!</p>
+        )}
+
+        {/* Name and birthday fields */}
         <Grid
           container
           className={StyledGridContainer}
@@ -133,11 +143,7 @@ export default function EmployeeFormPage() {
               name="firstName"
               variant="outlined"
               margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="firstName" />
-                </span>
-              }
+              helperText={<ErrorMessage name="firstName" />}
             />
           </Grid>
           <Grid item xs={10} md={4} className={StyledGridItemContainer}>
@@ -147,11 +153,7 @@ export default function EmployeeFormPage() {
               name="lastName"
               variant="outlined"
               margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="lastName" />
-                </span>
-              }
+              helperText={<ErrorMessage name="lastName" />}
             />
           </Grid>
           <Grid item xs={10} md={4} className={StyledGridItemContainer}>
@@ -161,14 +163,11 @@ export default function EmployeeFormPage() {
               name="birthday"
               variant="outlined"
               margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="birthday" />
-                </span>
-              }
+              helperText={<ErrorMessage name="birthday" />}
             />
           </Grid>
         </Grid>
+
         {/* Address and phone number fields */}
         <Grid
           container
@@ -182,14 +181,8 @@ export default function EmployeeFormPage() {
               label="Address"
               name="address"
               variant="outlined"
-              fullWidth
               margin="normal"
-              sx={{ maxWidth: "90%" }}
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="address" />
-                </span>
-              }
+              helperText={<ErrorMessage name="address" />}
             />
           </Grid>
           <Grid item xs={10} className={StyledGridItemContainer}>
@@ -198,17 +191,12 @@ export default function EmployeeFormPage() {
               label="Phone number"
               name="phoneNumber"
               variant="outlined"
-              fullWidth
-              sx={{ maxWidth: "90%" }}
               margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="phoneNumber" />
-                </span>
-              }
+              helperText={<ErrorMessage name="phoneNumber" />}
             />
           </Grid>
         </Grid>
+
         {/* Government ids */}
         <Grid
           container
@@ -216,63 +204,33 @@ export default function EmployeeFormPage() {
           spacing={1}
           justifyContent={startOrCenter}
         >
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              name="sssNo"
-              label="SSS #"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="sssNo" />
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              name="pagibigNo"
-              label="Pagibig #"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="pagibigNo" />
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              name="philhealthNo"
-              label="Philhealth #"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="philhealthNo" />
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              name="tinNo"
-              label="TIN #"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="tinNo" />
-                </span>
-              }
-            />
-          </Grid>
+          {["sssNo", "pagibigNo", "philhealthNo", "tinNo"].map(
+            (fieldName, index) => {
+              const modifiedFieldName =
+                fieldName.charAt(0).toUpperCase() +
+                fieldName.slice(1).replace(/([A-Z])/g, " $1");
+              return (
+                <Grid
+                  item
+                  xs={10}
+                  md={3}
+                  className={StyledGridItemContainer}
+                  key={index}
+                >
+                  <Field
+                    as={TextField}
+                    name={fieldName}
+                    label={modifiedFieldName}
+                    variant="outlined"
+                    margin="normal"
+                    helperText={<ErrorMessage name={fieldName} />}
+                  />
+                </Grid>
+              );
+            }
+          )}
         </Grid>
+
         {/* Status, position, immediate supervisor */}
         <Grid
           container
@@ -280,149 +238,63 @@ export default function EmployeeFormPage() {
           spacing={1}
           justifyContent={startOrCenter}
         >
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              name="status"
-              label="Status"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="status" />
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              name="position"
-              label="Position"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="position" />
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              name="immediateSupervisor"
-              label="Immediate Supervisor"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="immediateSupervisor" />
-                </span>
-              }
-            />
-          </Grid>
+          {["status", "position", "immediateSupervisor"].map(
+            (fieldName, index) => (
+              <Grid
+                item
+                xs={10}
+                md={3}
+                className={StyledGridItemContainer}
+                key={index}
+              >
+                <Field
+                  as={TextField}
+                  name={fieldName}
+                  label={fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}
+                  variant="outlined"
+                  margin="normal"
+                  helperText={<ErrorMessage name={fieldName} />}
+                />
+              </Grid>
+            )
+          )}
         </Grid>
 
-        {/* basicSalary, riceSubsidy, phoneAllowance, clothingAllowance,
-        grossSemiMonthlyRate, hourlyRate, */}
+        {/* Other fields */}
         <Grid
           container
           className={StyledGridContainer}
           spacing={1}
           justifyContent={startOrCenter}
         >
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              type="number"
-              name="basicSalary"
-              label="Basic Salary"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="basicSalary" />
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              type="number"
-              name="riceSubsidy"
-              label="Rice Subsidy"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="riceSubsidy" />
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              type="number"
-              name="phoneAllowance"
-              label="Phone Allowance"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="phoneAllowance" />
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              type="number"
-              name="clothingAllowance"
-              label="Clothing Allowance"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="clothingAllowance" />
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              type="number"
-              name="grossSemiMonthlyRate"
-              label="Gross semi-monthly Rate"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="grossSemiMonthlyRate" />
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={10} md={3} className={StyledGridItemContainer}>
-            <Field
-              as={TextField}
-              type="number"
-              name="hourlyRate"
-              label="Hourly Rate"
-              variant="outlined"
-              margin="normal"
-              helperText={
-                <span className={StyledErrorMessage}>
-                  <ErrorMessage name="hourlyRate" />
-                </span>
-              }
-            />
-          </Grid>
+          {[
+            { name: "basicSalary", label: "Basic Salary" },
+            { name: "riceSubsidy", label: "Rice Subsidy" },
+            { name: "phoneAllowance", label: "Phone Allowance" },
+            { name: "clothingAllowance", label: "Clothing Allowance" },
+            { name: "grossSemiMonthlyRate", label: "Gross Semi-Monthly Rate" },
+            { name: "hourlyRate", label: "Hourly Rate" },
+          ].map((field, index) => (
+            <Grid
+              item
+              xs={10}
+              md={3}
+              className={StyledGridItemContainer}
+              key={index}
+            >
+              <Field
+                as={TextField}
+                type="number"
+                name={field.name}
+                label={field.label}
+                variant="outlined"
+                margin="normal"
+                helperText={<ErrorMessage name={field.name} />}
+              />
+            </Grid>
+          ))}
         </Grid>
+
         <Button variant="contained" type="submit">
           Submit
         </Button>
