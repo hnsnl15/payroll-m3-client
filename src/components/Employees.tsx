@@ -6,23 +6,22 @@ import { Link } from "react-router-dom";
 
 export default function Employees() {
   const { data, isLoading } = useQuery("employees", getAllEmployee);
-  console.log(data);
   return (
     <Grid container spacing={2} maxWidth="900px" justifyContent="center">
       {!isLoading &&
         data &&
-        data.data.map((employees: IEmployee) => (
-          <Grid item xs={10} sm={6} md={4}>
+        data.data.map((employee: IEmployee) => (
+          <Grid item xs={10} sm={6} md={4} key={employee.employeeId}>
             <Card>
               <CardContent>
                 <Typography variant="h5" component="div">
-                  {employees.employeeId}
+                  {employee.employeeId}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {`${employees.firstName} ${employees.lastName}`}
+                  {`${employee.firstName} ${employee.lastName}`}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  <Link to="/">View</Link>
+                  <Link to={`/employee/${employee.employeeId}`}>View</Link>
                 </Typography>
               </CardContent>
             </Card>
