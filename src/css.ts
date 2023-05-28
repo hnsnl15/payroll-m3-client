@@ -37,3 +37,13 @@ export const StyledSuccessMessage = css`
 export const StyledWhiteText = css`
   color: white;
 `;
+
+export const StyledContainer = css`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+  padding-bottom: 70px;
+  min-height: 100vh;
+`;
