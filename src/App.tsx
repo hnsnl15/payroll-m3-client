@@ -11,6 +11,7 @@ import { AuthContext } from "./context/AuthContext";
 import EmployeeFormPage from "./pages/EmployeeFormPage";
 import Navbar from "./components/Navbar";
 import AttendanceForm from "./pages/AttendanceFormPage";
+import EmployeeDetailsPage from "./pages/EmployeeDetailsPage";
 
 interface IProtectedRouteProps {
   isAuthenticated: boolean;
@@ -52,6 +53,14 @@ export default function App() {
           element={
             <ProtectedRoute isAuthenticated={authenticated} redirectPath="">
               <EmployeeFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/:id"
+          element={
+            <ProtectedRoute isAuthenticated={authenticated} redirectPath="">
+              <EmployeeDetailsPage />
             </ProtectedRoute>
           }
         />
