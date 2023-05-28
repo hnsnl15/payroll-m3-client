@@ -16,7 +16,8 @@ import {
   StyledGridContainer,
   StyledGridItemContainer,
   StyledSuccessMessage,
-} from "./css";
+  StyledWhiteText,
+} from "../css";
 
 const initialValues: IEmployee = {
   lastName: "",
@@ -92,7 +93,7 @@ export default function EmployeeFormPage() {
       onSubmit={handleSubmit}
     >
       <Form className={StyledFormContainer}>
-        <h1>Create Employee</h1>
+        <h1 className={StyledWhiteText}>Create Employee</h1>
         {error && (
           <p className={StyledErrorMessage}>
             Error occurred while submitting the form to the server.

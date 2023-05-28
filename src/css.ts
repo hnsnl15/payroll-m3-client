@@ -33,3 +33,7 @@ export const StyledSuccessMessage = css`
   background: green;
   color: white;
 `;
+
+export const StyledWhiteText = css`
+  color: white;
+`;

@@ -17,7 +17,8 @@ import {
   StyledGridContainer,
   StyledGridItemContainer,
   StyledSuccessMessage,
-} from "./css";
+  StyledWhiteText,
+} from "../css";
 
 // Define the type for the checkbox field
 type CheckboxFieldProps = FieldProps<boolean> & FieldAttributes<{}>;
@@ -65,7 +66,7 @@ export default function AttendanceFormPage() {
       onSubmit={handleSubmit}
     >
       <Form className={StyledFormContainer}>
-        <h1>Create Attendance Record</h1>
+        <h1 className={StyledWhiteText}>Create Attendance Record</h1>
         {error && (
           <p className={StyledErrorMessage}>
             Error occurred while submitting the form to the server.
