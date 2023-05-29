@@ -64,7 +64,7 @@ export default function InventoryTable() {
                     {`${stock.engineNumber}`}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    <Link to={`/form/inventory/${stock.id}`}>View</Link>
+                    <Link to={`/stock/${stock.id}`}>View</Link>
                   </Typography>
                 </CardContent>
                 <div className={BtnContainer}>

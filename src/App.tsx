@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar";
 import AttendanceForm from "./pages/AttendanceFormPage";
 import EmployeeDetailsPage from "./pages/EmployeeDetailsPage";
 import StockFormPage from "./pages/StockFormPage";
+import StockDetailsPage from "./pages/StockDetailsPage";
 
 interface IProtectedRouteProps {
   isAuthenticated: boolean;
@@ -94,6 +95,14 @@ export default function App() {
           element={
             <ProtectedRoute isAuthenticated={authenticated} redirectPath="">
               <EmployeeDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/stock/:id"
+          element={
+            <ProtectedRoute isAuthenticated={authenticated} redirectPath="">
+              <StockDetailsPage />
             </ProtectedRoute>
           }
         />
