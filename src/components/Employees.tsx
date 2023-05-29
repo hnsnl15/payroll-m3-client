@@ -24,11 +24,18 @@ export default function Employees() {
   };
 
   return (
-    <Grid container spacing={2} maxWidth="900px" justifyContent="center">
+    <Grid container maxWidth="900px" justifyContent="center" gap={1}>
       {!isLoading &&
         data &&
         data.data.map((employee: IEmployee) => (
-          <Grid item xs={10} sm={6} md={4} key={employee.employeeId}>
+          <Grid
+            item
+            xs={10}
+            sm={6}
+            md={3}
+            key={employee.employeeId}
+            minWidth="240px"
+          >
             <Card sx={{ display: "grid" }}>
               <CardContent>
                 <Typography variant="h5" component="div">
