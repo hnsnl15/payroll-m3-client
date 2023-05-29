@@ -12,6 +12,7 @@ import EmployeeFormPage from "./pages/EmployeeFormPage";
 import Navbar from "./components/Navbar";
 import AttendanceForm from "./pages/AttendanceFormPage";
 import EmployeeDetailsPage from "./pages/EmployeeDetailsPage";
+import StockFormPage from "./pages/StockFormPage";
 
 interface IProtectedRouteProps {
   isAuthenticated: boolean;
@@ -69,6 +70,22 @@ export default function App() {
           element={
             <ProtectedRoute isAuthenticated={authenticated} redirectPath="">
               <EmployeeFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/form/inventory"
+          element={
+            <ProtectedRoute isAuthenticated={authenticated} redirectPath="">
+              <StockFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/form/inventory/:id"
+          element={
+            <ProtectedRoute isAuthenticated={authenticated} redirectPath="">
+              <StockFormPage />
             </ProtectedRoute>
           }
         />
