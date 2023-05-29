@@ -21,7 +21,7 @@ interface IProtectedRouteProps {
 
 const ProtectedRoute = ({
   isAuthenticated = false,
-  redirectPath,
+  redirectPath = "/login",
   children,
 }: IProtectedRouteProps) => {
   if (!isAuthenticated) {
@@ -49,7 +49,23 @@ export default function App() {
           }
         />
         <Route
+          path="/login"
+          element={
+            <ProtectedRoute isAuthenticated={!authenticated} redirectPath="/">
+              <LoginPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/form/employee"
+          element={
+            <ProtectedRoute isAuthenticated={authenticated} redirectPath="">
+              <EmployeeFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/form/employee/:id"
           element={
             <ProtectedRoute isAuthenticated={authenticated} redirectPath="">
               <EmployeeFormPage />
@@ -72,7 +88,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/login" element={<LoginPage />} />
         <Route
           path="*"
           element={
