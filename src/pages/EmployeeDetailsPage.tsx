@@ -3,6 +3,7 @@ import { Container, Grid, Typography, Paper } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getEmployeeById } from "../api";
+import AttendanceTable from "../components/AttendanceByEmployeeId";
 
 const styles = {
   root: css`
@@ -88,6 +89,8 @@ export default function EmployeeDetailsPage() {
           </Grid>
         )}
       </Grid>
+
+      <AttendanceTable id={parseInt(id!)} />
     </Container>
   );
 }
