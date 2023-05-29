@@ -34,39 +34,55 @@ export default function Navbar() {
             <span>Motor PH</span>
           </Link>
         </Typography>
-        <Button
-          onClick={() => setShowMenu(!showMenu)}
-          sx={{ position: "relative" }}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "20px",
+          }}
         >
-          <Avatar alt="Login Avatar" src="/src/assets/avatar.jpg" />
-        </Button>
-        {showMenu && (
-          <Box
-            sx={{
-              width: "130px",
-              height: "100px",
-              bgcolor: "white",
-              position: "absolute",
-              bottom: "-110px",
-              right: "10px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "10px",
-            }}
+          <Box sx={{ display: "flex", gap: "20px" }}>
+            <Link to="/form/employee" className={StyledWhiteText}>
+              Add Employee
+            </Link>
+            <Link to="/form/inventory" className={StyledWhiteText}>
+              Add Stock
+            </Link>
+          </Box>
+          <Button
+            onClick={() => setShowMenu(!showMenu)}
+            sx={{ position: "relative" }}
           >
-            <Button
-              variant="contained"
-              onClick={() => {
-                Cookies.remove(TOKEN_COOKIE_NAME);
-                window.location.reload();
+            <Avatar alt="Login Avatar" src="/src/assets/avatar.jpg" />
+          </Button>
+          {showMenu && (
+            <Box
+              sx={{
+                width: "130px",
+                height: "100px",
+                bgcolor: "white",
+                position: "absolute",
+                bottom: "-110px",
+                right: "10px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "10px",
               }}
             >
-              Log out
-            </Button>
-          </Box>
-        )}
+              <Button
+                variant="contained"
+                onClick={() => {
+                  Cookies.remove(TOKEN_COOKIE_NAME);
+                  window.location.reload();
+                }}
+              >
+                Log out
+              </Button>
+            </Box>
+          )}
+        </Box>
       </Toolbar>
     </AppBar>
   );
