@@ -277,3 +277,15 @@ export interface IAuthContext {
    */
   cookieInstance: string | undefined;
 }
+
+/**
+ * Represents the payables returned during the calculation of salary.
+ * @interface IPayables
+ */
+export interface IPayables {
+  philhealth: number;
+  netIncome: number;
+  leaveHours: number;
+  sss: number;
+  totalDeductions: number;
+}
