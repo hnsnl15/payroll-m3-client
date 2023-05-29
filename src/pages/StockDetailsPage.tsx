@@ -26,7 +26,7 @@ export default function StockDetailsPage() {
         {!isLoading && data && (
           <Grid item xs={12}>
             <Paper className={styles.paper}>
-              <Typography variant="h4">Employee Details</Typography>
+              <Typography variant="h4">Stock Details</Typography>
               <Typography variant="subtitle1">
                 Username: {data.data.id}
               </Typography>
