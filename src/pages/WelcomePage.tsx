@@ -7,7 +7,12 @@ export default function WelcomePage() {
   return (
     <AppLayout>
       <section>
-        <Typography variant="h4" mb="10px" className={StyledWhiteText}>
+        <Typography
+          variant="h4"
+          mb="10px"
+          className={StyledWhiteText}
+          textAlign="center"
+        >
           Employees
         </Typography>
         <Employees />
