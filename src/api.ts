@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { IAttendance, IEmployee, IInventory, ILogin } from ".";
+import { IAttendance, IEmployee, IInventory, ILogin, IPayables } from ".";
 import Cookies from "js-cookie";
 import { TOKEN_COOKIE_NAME } from "./hooks/useAuth";
 
@@ -125,12 +125,12 @@ export const getEmployeesPageable = (
  * @param {string} endDate - End date for calculation.
  * @returns {Promise<AxiosResponse<any>>} Promise that resolves to the calculation data.
  */
-export const getCalculationData = (
+export const postCalculationData = (
   username: string,
   startDate: string,
   endDate: string
-): Promise<AxiosResponse<any>> =>
-  axiosApi.get(
+): Promise<AxiosResponse<IPayables>> =>
+  axiosApi.post(
     `/api/v1/employees/get-calculation-data/${username}?startDate=${startDate}&endDate=${endDate}`
   );
 
