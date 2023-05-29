@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getEmployeeById } from "../api";
 import AttendanceTable from "../components/AttendanceByEmployeeId";
+import CalendarRangePicker from "../components/CalendarRangePicker";
 
 const styles = {
   root: css`
@@ -91,6 +92,9 @@ export default function EmployeeDetailsPage() {
       </Grid>
 
       <AttendanceTable id={parseInt(id!)} />
+      {data && !isLoading && (
+        <CalendarRangePicker username={data.data.username!} />
+      )}
     </Container>
   );
 }
