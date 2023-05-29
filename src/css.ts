@@ -47,3 +47,11 @@ export const StyledContainer = css`
   padding-bottom: 70px;
   min-height: 100vh;
 `;
+
+export const BtnContainer = css`
+  justify-self: end;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  display: flex;
+  gap: 3px;
+`;
