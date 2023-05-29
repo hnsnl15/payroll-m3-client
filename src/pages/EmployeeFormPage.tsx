@@ -8,7 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { postEmployee } from "../api";
+import { getEmployeeById, postEmployee, updateEmployee } from "../api";
 import { useState } from "react";
 import {
   StyledErrorMessage,
@@ -18,6 +18,8 @@ import {
   StyledSuccessMessage,
   StyledWhiteText,
 } from "../css";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const initialValues: IEmployee = {
   lastName: "",
@@ -69,20 +71,69 @@ export default function EmployeeFormPage() {
   const theme = useTheme();
   const isPhoneSize = useMediaQuery(theme.breakpoints.down("sm"));
   const startOrCenter = isPhoneSize ? "center" : "flex-start";
-  const [error, setError] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const { id } = useParams();
+  const { data } = useQuery("employee", async () =>
+    getEmployeeById(parseInt(id!))
+  );
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Check if data is available and update the initialValues accordingly
+  if (data && location.pathname !== "/form/employee") {
+    initialValues.lastName = data.data.lastName;
+    initialValues.firstName = data.data.firstName;
+    initialValues.birthday = data.data.birthday;
+    initialValues.address = data.data.address;
+    initialValues.phoneNumber = data.data.phoneNumber;
+    initialValues.sssNo = data.data.sssNo;
+    initialValues.philhealthNo = data.data.philhealthNo;
+    initialValues.tinNo = data.data.tinNo;
+    initialValues.pagibigNo = data.data.pagibigNo;
+    initialValues.status = data.data.status;
+    initialValues.position = data.data.position;
+    initialValues.immediateSupervisor = data.data.immediateSupervisor;
+    initialValues.basicSalary = data.data.basicSalary;
+    initialValues.riceSubsidy = data.data.riceSubsidy;
+    initialValues.phoneAllowance = data.data.phoneAllowance;
+    initialValues.clothingAllowance = data.data.clothingAllowance;
+    initialValues.grossSemiMonthlyRate = data.data.grossSemiMonthlyRate;
+    initialValues.hourlyRate = data.data.hourlyRate;
+  }
+
+  const updateMutation = useMutation(
+    async (data: { id: number; values: IEmployee }) =>
+      await updateEmployee(data.id, data.values)
+  );
+
+  const postMutation = useMutation(
+    async (values: IEmployee) => await postEmployee(values)
+  );
 
   const handleSubmit = async (
     values: IEmployee,
     { resetForm }: FormikHelpers<IEmployee>
   ) => {
     try {
-      await postEmployee(values);
-      resetForm();
-      setError(false);
-      setSuccess(true);
+      if (id && location.pathname !== "/form/employee") {
+        const data = {
+          id: parseInt(id),
+          values,
+        };
+        await updateMutation.mutateAsync(data);
+        await queryClient.invalidateQueries("employees");
+        navigate("/");
+      } else {
+        await postMutation.mutateAsync(values);
+        resetForm();
+        setSuccess(true);
+      }
+      setIsError(false);
     } catch {
-      setError(true);
+      setIsError(true);
     }
   };
 
@@ -94,7 +145,7 @@ export default function EmployeeFormPage() {
     >
       <Form className={StyledFormContainer}>
         <h1 className={StyledWhiteText}>Create Employee</h1>
-        {error && (
+        {isError && (
           <p className={StyledErrorMessage}>
             Error occurred while submitting the form to the server.
           </p>
