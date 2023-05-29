@@ -161,13 +161,10 @@ export const deleteEmployeeById = (
  * @param {IEmployee} value - Employee data to be created.
  * @returns {Promise<AxiosResponse<IEmployee>>} Promise that resolves to the created employee data.
  */
-export const postEmployee = async (
+export const postEmployee = (
   value: IEmployee
-): Promise<AxiosResponse<any, any> | undefined> => {
-  try {
-    return await axiosApi.post(`/api/v1/create-employee`, value);
-  } catch {}
-};
+): Promise<AxiosResponse<any, any> | undefined> =>
+  axiosApi.post(`/api/v1/create-employee`, value);
 
 // Attendance
 
