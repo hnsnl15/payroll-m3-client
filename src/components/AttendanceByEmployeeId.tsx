@@ -18,14 +18,18 @@ export default function AttendanceTable({ id }: { id: number }) {
   };
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery("attendance-by-employee-id", fetchAttendanceRecords, {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.length === 0) {
-          return undefined; // Stop fetching if the last page is empty
-        }
-        return pages.length; // Increment the page number for subsequent requests
-      },
-    });
+    useInfiniteQuery(
+      ["attendance-by-employee-id", id],
+      fetchAttendanceRecords,
+      {
+        getNextPageParam: (lastPage, pages) => {
+          if (lastPage.length === 0) {
+            return undefined; // Stop fetching if the last page is empty
+          }
+          return pages.length; // Increment the page number for subsequent requests
+        },
+      }
+    );
 
   return (
     <TableContainer component={Paper} sx={{ display: "grid", my: "30px" }}>
