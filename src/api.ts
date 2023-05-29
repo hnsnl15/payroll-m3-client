@@ -248,7 +248,7 @@ export const getAttendanceById = (
  * @param {number} id - Employee ID.
  * @returns {Promise<AxiosResponse<IAttendance[]>>} Promise that resolves to an array of attendance records.
  */
-export const getAttendanceByEmployee = (
+export const getAttendanceByEmployeeId = (
   page: number = 0,
   size: number = 5,
   id: number
