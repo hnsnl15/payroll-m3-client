@@ -6,8 +6,7 @@ import * as Yup from "yup";
 import { ILogin } from "..";
 import { useMutation } from "react-query";
 import { getJwtToken } from "../api";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const StyledContainer = css`
@@ -47,14 +46,7 @@ const initialValues: ILogin = {
 function LoginForm() {
   const { login } = useAuth();
   const [showError, setShowError] = useState(false);
-  const { authenticated, token, setToken, setAuthenticated } =
-    useContext(AuthContext);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    authenticated && navigate("/");
-  }, [token]);
+  const { setToken, setAuthenticated } = useContext(AuthContext);
 
   const authMutation = useMutation((newData: ILogin) =>
     getJwtToken(newData)
