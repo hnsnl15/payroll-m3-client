@@ -46,6 +46,7 @@ export const StyledContainer = css`
   padding-top: 100px;
   padding-bottom: 70px;
   min-height: 100vh;
+  gap: 30px;
 `;
 
 export const BtnContainer = css`
