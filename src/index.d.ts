@@ -99,7 +99,7 @@ export interface IInventory {
   /**
    * The ID of the inventory item.
    */
-  id: number;
+  id?: number;
   /**
    * The date when the inventory item was entered.
    */
@@ -107,7 +107,7 @@ export interface IInventory {
   /**
    * The stock label of the inventory item.
    */
-  stockLabel: EStockLabel;
+  stockLabel: string;
   /**
    * The brand of the inventory item.
    */
@@ -119,7 +119,7 @@ export interface IInventory {
   /**
    * The status of the inventory item.
    */
-  status: EStatus;
+  status: string;
 }
 
 /**
