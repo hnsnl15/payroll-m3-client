@@ -7,7 +7,7 @@ import {
   Button,
 } from "@mui/material";
 import { css } from "@emotion/css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StyledWhiteText } from "../css";
 import { useState } from "react";
 import Cookies from "js-cookie";
@@ -25,6 +25,7 @@ const LogoStyles = css`
 
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <AppBar position="fixed" className={NavbarStyles}>
@@ -76,6 +77,7 @@ export default function Navbar() {
                 onClick={() => {
                   Cookies.remove(TOKEN_COOKIE_NAME);
                   window.location.reload();
+                  navigate("/login");
                 }}
               >
                 Log out
