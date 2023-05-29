@@ -6,18 +6,22 @@ import { Link } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { BsPencil } from "react-icons/bs";
 import { BtnContainer } from "../css";
+import { useNavigate } from "react-router-dom";
 
 export default function Employees() {
   const { data, isLoading } = useQuery("employees", getAllEmployee);
   const deleteMutation = useMutation(deleteEmployeeById);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const handleDelete = async (id: number) => {
     await deleteMutation.mutateAsync(id);
     await queryClient.invalidateQueries("employees");
   };
 
-  const handleUpdate = () => {};
+  const handleUpdate = (id: number) => {
+    navigate(`/form/employee/${id}`);
+  };
 
   return (
     <Grid container spacing={2} maxWidth="900px" justifyContent="center">
@@ -45,7 +49,11 @@ export default function Employees() {
                 >
                   <AiFillDelete />
                 </Button>
-                <Button variant="outlined" sx={{ maxWidth: "25px;" }}>
+                <Button
+                  variant="outlined"
+                  sx={{ maxWidth: "25px;" }}
+                  onClick={() => handleUpdate(employee.employeeId!)}
+                >
                   <BsPencil />
                 </Button>
               </div>
